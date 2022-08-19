@@ -1,0 +1,83 @@
+﻿@{
+    Layout = "_AdminLayout";
+}
+
+<section class="container pt-3 py-1">
+    <h1>Event Calendar Admin Page</h1>
+    <p>Here is were admins can make changes to the production. Look below at what admin users can edit</p>
+</section>
+<hr />
+<section class="container-fluid">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-user-lock fa-2x"></i>
+                    </div>
+                    <h5 class="card-title">Roles</h5>
+                    <p class="card-text">
+                        Manage the roles that are able to log into the application. An admin user can create or remove roles that can be assigned to that user.
+                    </p>
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Roles">Roles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-user fa-2x"></i>
+                    </div>
+                    <h5 class="card-title">User Roles</h5>
+                    <p class="card-text">
+                        Manage the user roles that can be assigned to a user. An admin user can create, modify or remove a particular role from a specific user.
+                    </p>
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="UserRoles">User Roles</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-id-card fa-2x"></i>
+                    </div>
+                    <h5 class="card-title">Categories</h5>
+                    <p class="card-text">
+                        Manage the categories that application users can use when creating an event. An admin user can create, modify or remove categories.
+                    </p>
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Categories">Categories</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-comment fa-2x"></i>
+                    </div>
+                    <h5 class="card-title">Comments</h5>
+                    <p class="card-text">
+                        Manage the comments that were sent from the application users. An admin user can view and respond to comments.
+                    </p>
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Comments">Comments</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <div class="text-center">
+                        <i class="fas fa-clipboard-list fa-2x"></i>
+                    </div>
+                    <h5 class="card-title">Application Logs</h5>
+                    <p class="card-text">
+                        Manage the different events that happen in the application. Only an admin user can view the logs of the application.
+                    </p>
+                    <a class="btn btn-primary" asp-controller="Admin" asp-action="Logs">Application Logs</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

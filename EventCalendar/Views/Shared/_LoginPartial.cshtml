@@ -1,0 +1,74 @@
+﻿@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                @if (UserManager.GetUserAsync(User).Result.ProfilePicture != null)
+                {
+                    <img class="profilePictureLogin" src="data:image/*;base64,@(Convert.ToBase64String(UserManager.GetUserAsync(User).Result.ProfilePicture))">
+                }
+                else
+                {
+                    <i class="fas fa-user fa-2x"></i>
+                }
+                Hello, @await GetFullName()!
+            </a>
+            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarDarkDropdownMenuLink">
+                <li><a class="dropdown-item nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage Account">Manage Account</a></li>
+                <li><a class="dropdown-item nav-link" asp-controller="Event" asp-action="UserEvents" title="Manage User Events">Events I Manage</a></li>
+                @if (await IsUserAdmin())
+                {
+                    <li><a class="dropdown-item nav-link text-dark" asp-controller="Admin" asp-action="Index" title="Manage Admin">Admin</a></li>
+                }
+                <li class="dropdown-divider"></li>
+                <li>
+                    <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                        <button id="logout" type="submit" class="dropdown-item nav-link text-dark">Logout</button>
+                    </form>
+                </li>
+
+            </ul>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+</ul>
+
+@functions
+{
+    public async Task<string> GetFullName()
+    {
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+
+        if (user != null)
+        {
+            var fullName = string.Concat(user.FirstName, " ", user.LastName);
+            return fullName;
+        }
+
+        return user.UserName;
+    }
+
+    public async Task<bool> IsUserAdmin()
+    {
+        var user = await UserManager.FindByNameAsync(User.Identity.Name);
+        var userRoles = await UserManager.GetRolesAsync(user);
+
+        if (userRoles.Any(x => x.Contains("Admin")))
+        {
+            return true;
+        }
+
+        return false;
+    }
+}

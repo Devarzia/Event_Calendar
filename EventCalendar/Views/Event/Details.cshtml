@@ -1,0 +1,18 @@
+﻿@model EventViewModel
+
+<section class="mb-3">
+        <div class="py-5 px-2 jumbotron-blue">
+            <h1>@Model.SocialEvent.SocialEventName - Details</h1>
+        </div>
+</section>
+
+<section class="container mt-4">
+    <h4>Social Event - @Model.SocialEvent.SocialEventName</h4>
+    <span class="text-muted">@Model.SocialEvent.StartTime.ToString("ddd, MMM dd") at @Model.SocialEvent.StartTime.ToString("hh:mm tt")</span>
+    <hr />
+    <p>@Model.SocialEvent.SocialEventDescription</p>
+
+    <div class="mt-5">
+        <a class="btn btn-light" asp-action="UserEvents" asp-controller="Event">Back to List</a>
+    </div>
+</section>

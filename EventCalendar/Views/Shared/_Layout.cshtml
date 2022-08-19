@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css" />
+    <link rel="stylesheet" href="/lib/twitter-bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/full-calendar/css/main.css" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light border border-bottom">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">Event Calendar</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".collapse" aria-controls="collapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item active" aria-current="page">
+                        <a class="nav-link" asp-controller="Event" asp-action="Index">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" asp-controller="Home" asp-action="Contact">Contact</a>
+                    </li>
+                </ul>
+                <partial name="_LoginPartial" />
+            </div>
+        </div>
+    </nav>
+    <main class="container-fluid p-0 pb-4">
+        @RenderBody()
+    </main>
+    <footer class="container-fluid p-0 border-top">
+        <div class="py-2 my-2">
+            <ul class="nav justify-content-center">
+                <li class="list-inline-item"><a href="http://www.twitter.com"><i class="fab fa-twitter text-dark"></i></a></li>
+                <li class="list-inline-item"><a href="http://www.facebook.com"><i class="fab fa-facebook text-dark"></i></a></li>
+                <li class="list-inline-item"><a href="http://www.instagram.com"><i class="fab fa-instagram text-dark"></i></a></li>
+                <li class="list-inline-item"><a href="http://www.tiktok.com"><i class="fab fa-tiktok text-dark"></i></a></li>
+            </ul>
+            <ul class="nav justify-content-center mt-2">
+                <li class="list-inline-item"><i class="fas fa-copyright text-dark mr-2"></i> @DateTime.UtcNow.Year - <a class="text-dark text-decoration-none" asp-controller="Home" asp-action="Index">Event Calendar</a></li>
+                <li class="list-inline-item"><a class="text-dark text-decoration-none" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+            </ul>
+        </div>
+    </footer>
+    <script src="/lib/jquery/jquery.min.js"></script>
+    <script src="/lib/twitter-bootstrap/js/bootstrap.min.js"></script>
+    <script src="/lib/font-awesome/js/all.min.js"></script>
+    <script src="/lib/full-calendar/js/main.js"></script>
+    <script src="/js/site.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,50 @@
+﻿@model AdminViewModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<section class="container pt-3 py-1">
+    <h1>Comments</h1>
+    <p>Below is a list of messages sent to the application!</p>
+</section>
+<hr />
+<section class="mt-4 container">
+    @if (Model.Contacts.Any())
+    {
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td class="font-weight-bold">Contact ID</td>
+                    <td class="font-weight-bold">First Name</td>
+                    <td class="font-weight-bold">Last Name</td>
+                    <td class="font-weight-bold">Email</td>
+                    <td class="font-weight-bold">Message</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contact in Model.Contacts)
+                {
+                    <tr>
+                        <td>@contact.ContactID</td>
+                        <td>@contact.FirstName</td>
+                        <td>@contact.LastName</td>
+                        <td>@contact.Email</td>
+                        <td>@contact.Message</td>
+                        <td>
+                            <ul class="list-unstyled list-inline">
+                                <li class="list-inline-item"><a asp-action="EditCategory" asp-controller="Admin" asp-route-categoryID="@contact.Email"><i class="fas fa-reply"></i></a></li>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="h3 text-center">
+            There are no comments at this time
+        </div>
+    }
+</section>

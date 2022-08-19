@@ -1,0 +1,29 @@
+﻿@page
+@model ResendEmailConfirmationModel
+
+<section class="mb-4 jumbotron-green">
+    <div class="py-5 container">
+        <h1>Resend Email Confirmation</h1>
+    </div>
+</section>
+
+<section class="container">
+    <span class="lead d-block text-center">Enter the email that is associated with your account</span>
+    <form method="post" class="col-md-6 offset-md-3">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <div class="row">
+            <label asp-for="Input.Email" class="col-md-3 col-form-label text-md-center"></label>
+            <div class="col-md-9">
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary">Resend</button>
+        </div>
+    </form>
+</section>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

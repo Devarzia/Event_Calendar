@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="~/css/account.css" />
+
+<section class="mb-2 jumbotron-green">
+    <div class="py-5 container">
+        <h1>Manage your account</h1>
+        <span class="fs-5">Change your account settings</span>
+    </div>
+</section>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2 border-end">
+            <partial name="_ManageNav" />
+        </div>
+        <div class="col-md-6 col-md-offset-2">
+            @RenderBody()
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

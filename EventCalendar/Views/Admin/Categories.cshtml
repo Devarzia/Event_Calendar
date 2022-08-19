@@ -1,0 +1,171 @@
+﻿@model AdminViewModel
+@{
+    Layout = "_AdminLayout";
+}
+
+<section class="container pt-3 py-1">
+    <h1>Categories</h1>
+    <p>Below is a list of all of the registered event categories!</p>
+</section>
+<hr />
+<section class="mt-4 container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="my-2 alert alert-dismissible alert-success">
+            @TempData["Message"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+    @if (Model.Categories.Any())
+    {
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <td class="font-weight-bold">Event ID</td>
+                    <td class="font-weight-bold">Category Name</td>
+                    <td></td>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var category in Model.Categories)
+                {
+                    <tr>
+                        <td>@category.EventCategoryID</td>
+                        <td>@category.EventCategoryName</td>
+                        <td>
+                            <a class="editCategory btn btn-dark" data-bs-toggle="modal" data-bs-target="#editCategoryModal" data-categoryID="@category.EventCategoryID" title="Edit @category.EventCategoryName"><i class="fas fa-edit"></i></a>
+                            <a class="deleteCategory btn btn-dark" data-bs-toggle="modal" data-bs-target="#deleteCategoryModal" data-categoryID="@category.EventCategoryID" title="Delete @category.EventCategoryName"><i class="fas fa-trash"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div class="h3 text-center">
+            There are no categories at this time
+        </div>
+    }
+    <div class="mt-3">
+        <a class="btn btn-primary addCategory" data-bs-target="#addCategoryModal" data-bs-toggle="modal">Create Category</a>
+    </div>
+</section>
+
+<div class="modal fade" id="addCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="addCategoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-controller="Admin" asp-action="AddCategory" method="post">
+                <div class="modal-header">
+                    <h2 class="modal-title">Add Category</h2>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body col-md-6 offset-md-3">
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label" asp-for="Category.EventCategoryName">Name</label>
+                        <div class="col-md-9">
+                            <input class="form-control" asp-for="Category.EventCategoryName" />
+                            <span asp-validation-for="Category.EventCategoryName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="editCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="editCategoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-controller="Admin" asp-action="EditCategory" method="post">
+                <div class="modal-header">
+                    <h2 class="modal-title">Update Category</h2>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body col-md-6 offset-md-3">
+                    <input type="hidden" asp-for="Category.EventCategoryID" />
+                    <div class="mb-3 row">
+                        <label class="col-md-3 col-form-label" asp-for="Category.EventCategoryName">Name</label>
+                        <div class="col-md-9">
+                            <input class="form-control" asp-for="Category.EventCategoryName" />
+                            <span asp-validation-for="Category.EventCategoryName" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteCategoryModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteCategoryModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form asp-controller="Admin" asp-action="DeleteCategory" method="post">
+                <div class="modal-header">
+                    <h2 class="modal-title">Delete Category</h2>
+                    <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" asp-for="Category.EventCategoryID" />
+                    <div class="row">
+                        <div class="col-2 d-flex justify-content-center align-items-center">
+                            <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
+                        </div>
+                        <div class="col-10">
+                            <span>Are you sure that you want to delete the <strong id="categoryName"></strong> category?</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+    <script>
+        $(".addCategory").click(function(e) {
+            clearModal();
+        });
+
+        $(".editCategory").click(function(e) {
+            clearModal();
+            var categoryID = $(this).data('categoryid');
+            $.ajax({
+                url: "/Admin/GetCategoryByID?categoryID=" + categoryID
+            })
+                .done(function(data) {
+                    console.log(data);
+                    $("input#Category_EventCategoryID").val(categoryID);
+                    $("input#Category_EventCategoryName").val(data.eventCategoryName);
+                });
+        });
+
+        $(".deleteCategory").click(function(e) {
+            var categoryID = $(this).data('categoryid');
+            $.ajax({
+                url: "/Admin/GetCategoryByID?categoryID=" + categoryID
+            })
+                .done(function(data) {
+                    $("#categoryName").text(data.eventCategoryName);
+                })
+            $("input#Category_EventCategoryID").val(categoryID);
+        });
+
+        function clearModal() {
+            $("input#Category_EventCategoryName").val("");
+        }
+    </script>
+}

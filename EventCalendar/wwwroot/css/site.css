@@ -1,0 +1,208 @@
+﻿/* Sticky footer styles
+-------------------------------------------------- */
+html, body {
+    height: 100%;
+    font-size: 14px;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1 0 auto;
+}
+
+footer, footer a, .dropdown-menu {
+    flex-shrink: 0;
+}
+/* -------------------------------------------------- */
+
+textarea {
+    resize: none;
+}
+
+.headerImage {
+    max-height: 350px;
+    max-width: 500px;
+}
+
+.jumbotron-citysnow {
+    background: url("../Images/city_snow.jpg") no-repeat center center;
+    background-size: cover;
+    position: relative;
+}
+
+    .jumbotron-citysnow::before {
+        content: "";
+        position: absolute;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        left: 0px;
+        background-color: rgba(106, 142, 196, 0.83);
+    }
+
+    .jumbotron-citysnow h1,.jumbotron-citysnow p {
+        position: relative;
+        color: antiquewhite;
+    }
+
+@media (min-width: 1025px)
+{
+    .jumbotron-citysnow {
+        height: 25vh;
+    }
+}
+
+
+.jumbotron-mountainsMist {
+    background: url("../Images/mountains_mist.jpg") no-repeat center center;
+    background-size: cover;
+    height: 250px;
+}
+
+.jumbotron-sunsetRoad {
+    background: url("../Images/sunset_road.jpg") no-repeat center center;
+    background-size: cover;
+    height: 250px;
+}
+
+.validation-summary-errors ul {
+    list-style: none;
+    padding: 0;
+}
+
+.jumbotron-green {
+    background-color: #28a745 !important;
+    color: antiquewhite;
+}
+
+.jumbotron-blue {
+    background-color: #6A8EC4 !important;
+    color: antiquewhite;
+}
+
+.jumbotron-yellow {
+    background-color: #ffc107 !important;
+    color: antiquewhite;
+}
+
+.profilePictureLogin {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 30px;
+}
+
+nav.sidebar {
+    background-color: #F8F9FA;
+    color: #212529 !important;
+    font-weight: 700;
+}
+
+.addRoleToUser, .removeRoleFromUser, .editRole, .editCategory, .editEvent, .removeRole, .deleteCategory, .deleteEvent {
+    cursor: pointer;
+}
+
+.socialEvent
+{
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.date {
+    background: #6A8EC4;
+    color: white;
+    text-align: center;
+    width: 100px;
+    border-radius: 8px;
+}
+
+    .date .month {
+        text-transform: uppercase;
+        font-size: 28px;
+        font-weight: bold;
+        padding: 8px 2px;
+    }
+
+    .date .day {
+        background: #f7f7f7;
+        color: #333;
+        font-size: 40px;
+        padding: 6px 12px;
+    }
+
+    .date .year
+    {
+        font-size: 28px
+    }
+
+.details {
+    position: absolute;
+    top: 0;
+    left: 105px;
+    border: 1px solid;
+    border-radius: 8px;
+}
+
+    .details .eventName {
+        font-weight: bold;
+        display: block;
+        border-bottom: 1px solid;
+        font-size: 24px;
+    }
+
+    .details .description {
+        font-size: 25px;
+    }
+
+.details .host
+{
+    margin-top: 8px;
+    font-size: 25px;
+    display: block;
+}
+.details .dateDifference
+{
+    border-top: 1px solid;
+    display: block;
+    font-size: 25px;
+}
+
+.icon-box
+{
+    margin-top: 15px;
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.icon {
+    background: #6A8EC4;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 72px;
+    height: 72px;
+    
+    border-radius: 8px;
+}
+.icon-text {
+    position: absolute;
+    top: 0;
+    left: 80px;
+}
+.icon-description
+{
+    line-height: 25px;
+    font-size: 16px;
+}
+
+.card-img-top {
+    width: 100%;
+    height: 15vw;
+    object-fit: cover;
+}

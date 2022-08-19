@@ -1,0 +1,14 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Access denied";
+}
+
+<section class="d-flex h-75 justify-content-center align-items-center">
+    <article class="p-3 text-center">
+        <i class="far fa-hand-paper mb-3 fa-10x text-danger"></i>
+        <h1 class="font-weight-bolder">Whoa, Whoa, Whoa</h1>
+        <h3>You're not allowed to access this page with the permissions that you have!</h3>
+        <h6 class="text-muted">(If you find this to be an error, please contact the adminstrator <a class="btn-link font-weight-bold" asp-action="Contact" asp-controller="Home">here</a>)</h6>
+    </article>
+</section>
