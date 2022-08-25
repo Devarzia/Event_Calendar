@@ -75,7 +75,10 @@ namespace EventCalendar.Application
         public async Task AddSocialEvent(SocialEventDTO dto)
         {
             dto.DateCreated = DateTime.Now;
-            dto.DateModified = DateTime.Now;
+            if (!dto.AllDay)
+            {
+                dto.DateModified = DateTime.Now;
+            }
             var socialEvent = _mapper.Map<SocialEvent>(dto);
             await _socialEventRepository.AddEntity(socialEvent);
             await _logService.CreateAddLog($"{dto.SocialEventName} added");

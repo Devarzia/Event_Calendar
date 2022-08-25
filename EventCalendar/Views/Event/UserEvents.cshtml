@@ -33,12 +33,12 @@
                     @foreach (var socialEvent in Model.Events)
                     {
                         <tr>
-                            <td><a class="btn-link" asp-action="Details" asp-controller="Event" asp-route-ID="@socialEvent.SocialEventID">@socialEvent.SocialEventName</a></td>
+                            <td><a class="btn-link viewModal" data-bs-toggle="modal" data-bs-target="#eventDetailModal" data-socialEventID="@socialEvent.SocialEventID" title="View @socialEvent.SocialEventName Details">@socialEvent.SocialEventName</a></td>
                             <td>@socialEvent.SocialEventDescription</td>
                             <td>@socialEvent.Category</td>
                             <td>@socialEvent.StartTime.ToString("f")</td>
                             <td>@socialEvent.EndTime?.ToString("f")</td>
-                            <td>@(socialEvent.AllDay ? "Yes": "No")</td>
+                            <td>@(socialEvent.AllDay ? "Yes" : "No")</td>
                             <td>
                                 <a class="editEvent btn btn-primary" data-bs-toggle="modal" data-bs-target="#editEventModal" data-socialEventID="@socialEvent.SocialEventID"><i title="Edit @socialEvent.SocialEventName" class="fas fa-edit"></i></a>
                                 <a class="deleteEvent btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteEventModal" data-socialEventID="@socialEvent.SocialEventID"><i title="Delete @socialEvent.SocialEventName" class="fas fa-trash"></i></a>
@@ -58,6 +58,70 @@
         <button class="btn btn-primary addEvent" data-bs-toggle="modal" data-bs-target="#addEventModal" title="Add Social Event">Add Social Event</button>
     </div>
 </section>
+
+<div class="modal fade" id="eventDetailModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1" aria-labelledby="#eventDetailsModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><span class="eventName"></span> Details</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+            </div>
+            <div class="modal-body col-md-10 offset-md-2">
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.SocialEventName" class="col-form-label col-md-4">Event Name</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.SocialEventName" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.SocialEventDescription" class="col-form-label col-md-4">Event Description</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.SocialEventDescription" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.Category" class="col-form-label col-md-4">Event Category</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.Category" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.StartTime" class="col-form-label col-md-4">Start Time</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.StartTime" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.EndTime" class="col-form-label col-md-4">End Date</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.EndTime" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.AllDay" class="col-form-label col-md-4">All Day Event?</label>
+                    <div class="col-md-8">
+                        <input type="text" asp-for="SocialEvent.AllDay" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.DateCreated" class="col-form-label col-md-4">Date Created</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.DateCreated" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+                <div class="mb-3 row">
+                    <label asp-for="SocialEvent.DateModified" class="col-form-label col-md-4">Date Modified</label>
+                    <div class="col-md-8">
+                        <input asp-for="SocialEvent.DateModified" class="form-control-plaintext" readonly />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="addEventModal" data-bs-keyboard="false" data-bs-backdrop="static" ttabindex="-1" aria-labelledby="#addEventModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
@@ -99,14 +163,14 @@
                     <div class="mb-3 row">
                         <label asp-for="SocialEvent.EndTime" class="col-form-label col-md-3">End Date</label>
                         <div class="col-md-9">
-                            <input asp-for="SocialEvent.EndTime" type="datetime-local" class="form-control" />
+                            <input asp-for="SocialEvent.EndTime" type="datetime-local" class="form-control txtEndTime" />
                             <span asp-validation-for="SocialEvent.EndTime" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col-md-3"></div>
                         <div class="col-md-9">
-                            <input type="checkbox" asp-for="SocialEvent.AllDay" class="form-check-input" />
+                            <input type="checkbox" asp-for="SocialEvent.AllDay" class="form-check-input chkAllDay" />
                             <label asp-for="SocialEvent.AllDay" class="form-check-label">All Day Event</label>
                             <span asp-validation-for="SocialEvent.AllDay" class="text-danger"></span>
                         </div>
@@ -160,16 +224,16 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label asp-for="SocialEvent.EndTime" class="col-form-label col-md-3">End Date</label>
+                        <label asp-for="SocialEvent.EndTime" class="col-form-label col-md-3">End Time</label>
                         <div class="col-md-9">
-                            <input asp-for="SocialEvent.EndTime" type="datetime-local" class="form-control" />
+                            <input asp-for="SocialEvent.EndTime" type="datetime-local" class="form-control txtEndTime" />
                             <span asp-validation-for="SocialEvent.EndTime" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <div class="col-md-3"></div>
                         <div class="col-md-9">
-                            <input type="checkbox" asp-for="SocialEvent.AllDay" class="form-check-input" />
+                            <input type="checkbox" asp-for="SocialEvent.AllDay" class="form-check-input chkAllDay" />
                             <label asp-for="SocialEvent.AllDay" class="form-check-label">All Day Event</label>
                             <span asp-validation-for="SocialEvent.AllDay" class="text-danger"></span>
                         </div>
@@ -201,7 +265,7 @@
                             <i class="fas fa-exclamation-triangle fa-2x text-warning"></i>
                         </div>
                         <div class="col-10">
-                            <span>Are you sure that you want to delete the <strong class="eventName"></strong> role?</span>
+                            <span>Are you sure that you want to delete the <strong class="eventName"></strong> event?</span>
                         </div>
                     </div>
                 </div>
@@ -213,66 +277,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts
-    {
-    <script>
-        $(".addEvent").click(function(e) {
-            $("select#SocialEvent_CategoryID").empty();
-            clearModal();
-            $.ajax({
-                url: "/Event/AddSocialEvent"
-            })
-                .done(function(data) {
-                    console.log(data);
-                    $.each(data, function() {
-                        $("select#SocialEvent_CategoryID").append($("<option />").val(this.eventCategoryID).text(this.eventCategoryName));
-                    });
-                })
-        })
-
-        $(".editEvent").click(function(e) {
-            $("select#SocialEvent_CategoryID").empty();
-            eventID = $(this).data('socialeventid');
-            $.ajax({
-                url: "/Event/EditSocialEvent?socialEventID=" + eventID
-            })
-                .done(function(data) {
-                    console.log(data);
-                    $(".eventName").text(data.socialEvent.socialEventName);
-                    $("input#SocialEvent_SocialEventID").val(eventID);
-                    $("input#SocialEvent_SocialEventName").val(data.socialEvent.socialEventName);
-                    $("textarea#SocialEvent_SocialEventDescription").val(data.socialEvent.socialEventDescription);
-                    $("input#SocialEvent_StartTime").val(data.socialEvent.startTime);
-                    $("input#SocialEvent_EndTime").val(data.socialEvent.endTime);
-                    if (data.socialEvent.allDay){
-                        $("input#SocialEvent_AllDay").attr("checked", "checked");
-                    }
-                    $.each(data.categories, function() {
-                        $("select#SocialEvent_CategoryID").append($("<option />").val(this.eventCategoryID).text(this.eventCategoryName));
-                    });
-                    $("select#SocialEvent_CategoryID").val(data.socialEvent.categoryID);
-                })
-        })
-
-        $(".deleteEvent").click(function(e) {
-            eventID = $(this).data('socialeventid');
-            $.ajax({
-                url: "/Event/GetSocialEventByID?socialEventID=" + eventID
-            })
-                .done(function(data) {
-                    $("input#SocialEvent_SocialEventID").val(eventID);
-                    $("input#SocialEvent_SocialEventName").val(data.socialEventName);
-                    $("textarea#SocialEvent_SocialEventDescription").val(data.socialEventDescription);
-                    $(".eventName").text(data.socialEventName);
-                })
-        })
-
-        function clearModal() {
-            $("input#SocialEvent_SocialEventName").val("");
-            $("textarea#SocialEvent_SocialEventDescription").val("");
-            $("select#SocialEvent_CategoryID").val("");
-            $("input#SocialEvent_SocialEventDate").val("");
-        }
-    </script>
-}
