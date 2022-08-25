@@ -206,3 +206,8 @@ nav.sidebar {
     height: 15vw;
     object-fit: cover;
 }
+
+.active{
+    color: white;
+    background-color: blue;
+}
