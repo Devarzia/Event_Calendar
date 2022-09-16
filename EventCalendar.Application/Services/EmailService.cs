@@ -21,6 +21,30 @@ public class EmailService : IEmailService, IEmailSender
         _fromEmail = configuration["SendGrid:FromEmail"];
     }
 
+    public async Task SendContactFormSubmissionEmail(ContactDTO dto)
+    {
+        // TO-DO: Create template and change templateID
+        var client = new SendGridClient(_apiKey);
+        var templateID = "d-95e6aca9b5794c2ea3538f3e1122ff1a";
+        var from = new EmailAddress(_fromEmail, _fromName);
+        var to = new EmailAddress(dto.Email);
+        var dynamicTemplateData = new
+        {
+            subject = $"Your Message has Been Recieved",
+            recipient = $"{dto.FirstName} {dto.LastName}",
+            message = $"<p>Thank you for sending us a message! We intend to respond you your message within 24 hours.</p>"
+        };
+
+        var sendMessage = MailHelper.CreateSingleTemplateEmail(from, to, templateID, dynamicTemplateData);
+
+        var response = await client.SendEmailAsync(sendMessage);
+
+        if (response.IsSuccessStatusCode)
+        {
+            System.Console.WriteLine("Email Sent");
+        }
+    }
+
     public async Task SendEmailAsync(string email, string subject, string message)
     {
         var client = new SendGridClient(_apiKey);
