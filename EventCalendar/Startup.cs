@@ -1,13 +1,11 @@
 using EventCalendar.Application;
 using EventCalendar.Domain;
 using EventCalendar.Filters;
-using EventCalendar.Utilities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,7 +34,7 @@ namespace EventCalendar
             services.AddScoped<ILogService, LogService>();
             services.AddScoped<ISocialEventService, SocialEventService>();
             services.AddScoped<IContactService, ContactService>();
-            services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailService, EmailService>();
             services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
             services.AddScoped<ModelValidationFilter>();
 
