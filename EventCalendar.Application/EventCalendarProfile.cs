@@ -15,6 +15,7 @@ namespace EventCalendar.Application
             CreateMap<EventCategory, EventCategoryDTO>().ReverseMap();
 
             CreateMap<Log, LogDTO>().ReverseMap();
+            CreateMap<ContactInfo, ContactDTO>().ReverseMap();
         }
     }
 }

@@ -9,10 +9,12 @@ namespace EventCalendar.Application
     {
         private readonly IRepository<ContactInfo> _contactInfoRepository;
         private readonly IMapper _mapper;
-        public ContactService(IRepository<ContactInfo> contactInfoRepository, IMapper mapper)
+        private readonly IEmailService _emailService;
+        public ContactService(IRepository<ContactInfo> contactInfoRepository, IMapper mapper, IEmailService emailService)
         {
             _contactInfoRepository = contactInfoRepository;
             _mapper = mapper;
+            _emailService = emailService;
         }
 
         public async Task<List<ContactDTO>> GetContactInformationList()
@@ -26,6 +28,7 @@ namespace EventCalendar.Application
         {
             var contactInfo = _mapper.Map<ContactInfo>(dto);
             await _contactInfoRepository.AddEntity(contactInfo);
+            await _emailService.SendContactFormSubmissionEmail(dto);
         }
     }
 }
