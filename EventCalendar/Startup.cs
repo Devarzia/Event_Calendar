@@ -41,8 +41,8 @@ namespace EventCalendar
             services.AddHttpContextAccessor();
             services.AddSession();
 
-            services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendarProduction")));
-            //services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendar")));
+            //services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendarProduction")));
+            services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendar")));
             services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
             {
                 opt.SignIn.RequireConfirmedEmail = true;
