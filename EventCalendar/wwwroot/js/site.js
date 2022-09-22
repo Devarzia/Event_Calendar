@@ -115,11 +115,17 @@ document.addEventListener('DOMContentLoaded', function () {
             initialView: 'dayGridMonth',
             headerToolbar:
             {
-                end: 'dayGridMonth,dayGridWeek,timeGridDay,list',
+                end: 'dayGridMonth,list',
                 center: 'title',
-                start: 'prevYear,prev,next,nextYear today'
+                start: 'prev,next'
             },
-            events: 'Event/GetEvents'
+            events: 'Event/GetEvents',
+            themeSystem: 'bootstrap5',
+            buttonIcons:
+            {
+                dayGridMonth: 'calendar',
+                list: 'list'
+            }
         });
     calendar.render();
 });
