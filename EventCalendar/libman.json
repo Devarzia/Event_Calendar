@@ -36,6 +36,20 @@
     {
       "library": "bootstrap-icons@1.9.1",
       "destination": "wwwroot/lib/bootstrap-icons/"
+    },
+    {
+      "library": "jquery-validate@1.19.5",
+      "destination": "wwwroot/lib/jquery-validate/",
+      "files": [
+        "jquery.validate.min.js"
+      ]
+    },
+    {
+      "library": "jquery-validation-unobtrusive@4.0.0",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive/",
+      "files": [
+        "jquery.validate.unobtrusive.min.js"
+      ]
     }
   ]
 }

@@ -9,3 +9,30 @@
 <section class="container">
     <div id="calendar"></div>
 </section>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl,
+                {
+                    initialView: 'dayGridMonth',
+                    headerToolbar:
+                    {
+                        end: 'dayGridMonth,list',
+                        center: 'title',
+                        start: 'prev,next'
+                    },
+                    events: 'Event/GetEvents',
+                    themeSystem: 'bootstrap5',
+                    buttonIcons:
+                    {
+                        dayGridMonth: 'calendar',
+                        list: 'list'
+                    }
+                });
+            calendar.render();
+        });
+    </script>
+}
