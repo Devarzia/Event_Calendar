@@ -1,17 +1,9 @@
-using EventCalendar.Application;
-using EventCalendar.Domain;
-using EventCalendar.Filters;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using EventCalendar.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Reflection;
 
 namespace EventCalendar
 {
@@ -27,50 +19,13 @@ namespace EventCalendar
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
-
-            services.AddAutoMapper(x => x.AddProfile<EventCalendarProfile>(), Assembly.GetExecutingAssembly());
-            services.AddScoped<IEventCategoryService, EventCategoryService>();
-            services.AddScoped<ILogService, LogService>();
-            services.AddScoped<ISocialEventService, SocialEventService>();
-            services.AddScoped<IContactService, ContactService>();
-            services.AddTransient<IEmailService, EmailService>();
-            services.AddScoped(typeof(IRepository<>), typeof(BaseRepository<>));
-            services.AddScoped<ModelValidationFilter>();
-
-            services.AddHttpContextAccessor();
-            services.AddSession();
-
-            //services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendarProduction")));
-            services.AddDbContext<EventCalendarDbContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("EventCalendar")));
-            services.AddIdentity<ApplicationUser, ApplicationRole>(opt =>
-            {
-                opt.SignIn.RequireConfirmedEmail = true;
-                opt.SignIn.RequireConfirmedAccount = true;
-                opt.Lockout.MaxFailedAccessAttempts = 3;
-                opt.User.RequireUniqueEmail = true;
-
-            }).AddRoles<ApplicationRole>().AddEntityFrameworkStores<EventCalendarDbContext>().AddDefaultUI().AddDefaultTokenProviders();
-
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddGoogle(o =>
-                {
-                    o.ClientId = Configuration["Google:ClientID"];
-                    o.ClientSecret = Configuration["Google:ClientSecret"];
-                });
-
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
-                options.LogoutPath = "/Identity/Account/Logout";
-                options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromHours(1);
-                options.LoginPath = "/Identity/Account/Login";
-                options.ReturnUrlParameter = "returnUrl";
-                options.SlidingExpiration = false;
-                options.Cookie.IsEssential = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-            });
+            services.AddApplicationServices()
+                .AddDatabaseServices(Configuration)
+                .AddIdentityServices()
+                .AddAuthenticationServices(Configuration)
+                .AddApplicationCookieServices()
+                .AddApplicationLayerServices()
+                .AddDomainLayerServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -126,7 +126,7 @@
 <div class="modal fade" id="addEventModal" data-bs-keyboard="false" data-bs-backdrop="static" ttabindex="-1" aria-labelledby="#addEventModal" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
-            <form asp-action="AddSocialEvent" asp-controller="Event" method="post">
+            <form asp-action="AddSocialEvent" asp-controller="Event" class="needs-validation" method="post">
                 <div class="modal-header">
                     <h2>Add Event</h2>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
@@ -277,3 +277,27 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    @*<script>
+        (() => {
+            'use strict'
+
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            const forms = document.querySelectorAll('.needs-validation')
+
+            // Loop over them and prevent submission
+            Array.from(forms).forEach(form => {
+                form.addEventListener('submit', event => {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>*@
+}
