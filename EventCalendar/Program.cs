@@ -24,7 +24,7 @@ namespace EventCalendar
                     logging.AddConsole();
                     logging.AddDebug();
                     logging.AddEventSourceLogger();
-                })
+                }).ConfigureLogging(log => log.AddAzureWebAppDiagnostics())
                 .ConfigureAppConfiguration((hostingContext, builder) =>
                 {
                     if (hostingContext.HostingEnvironment.IsDevelopment())
