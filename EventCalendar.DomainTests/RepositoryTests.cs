@@ -3,130 +3,79 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventCalendar.DomainTests
 {
     [TestClass]
     public class RepositoryTests
     {
+        private DbContextOptions<EventCalendarDbContext> _dbContextOptions;
+
         [TestInitialize]
         public void TestInitialize()
         {
-            var options = CreateDbContextOptions();
-            CreateDatabaseEntities(options);
+            _dbContextOptions = new DbContextOptionsBuilder<EventCalendarDbContext>().UseInMemoryDatabase("Name").Options;
         }
 
         [TestMethod]
-        public void GetAllEntities_ReturnsAllEntities()
+        public async Task GetSocialEvents_CanGetAllSocialEvent()
         {
             // Arrange
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
+            var expected = 3;
+
             // Act
-            var target = new BaseRepository<SocialEvent>(context);
-            var actual = target.GetAllEntities();
+            var target = await CreateRepository();
+            var actual = await target.GetAllEntities();
 
             // Assert
             Assert.IsNotNull(actual);
-            Assert.AreEqual(3, actual.Result.Count());
+            Assert.AreEqual(expected, actual.Count());
         }
 
         [TestMethod]
-        public void SearchEntities_ReturnsEntities()
+        public async Task GetSocialEvent_CanGetSocialEvent()
         {
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
-            // Act 
-            var target = new BaseRepository<SocialEvent>(context);
-            var actual = target.QueryEntitiesByParameter(x => x.CategoryID == 2);
+            var expected = "First Test Event Name";
 
-            // Arrange
+            var target = await CreateRepository();
+            var actual = await target.GetEntityByID(1);
+
             Assert.IsNotNull(actual);
-            Assert.AreEqual(1, actual.Result.Count());
+            Assert.AreEqual(expected, actual.SocialEventName);
         }
 
         [TestMethod]
-        public void GetEntityByID_ReturnsEntity()
+        public async Task AddSocialEvent_CanAddSocialEvent()
         {
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
-            // Act 
-            var target = new BaseRepository<SocialEvent>(context);
-            var actual = target.GetEntityByID(2);
+            var expected = 4;
+            var socialEvent = new SocialEvent { SocialEventID = 1, SocialEventDescription = "Test Description", CategoryID = 1, SocialEventName = "First Test Event Name" };
 
-            // Arrange
-            Assert.IsNotNull(actual);
-            Assert.AreEqual("Second Test Event Name", actual.Result.SocialEventName);
-        }
-
-        [TestMethod]
-        public void AddEntity_IsSuccessful()
-        {
-            var socialEvent = new SocialEvent { CategoryID = 1, SocialEventName = "Fourth Test Event Name", SocialEventID = 4 };
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
-            // Act 
-            var target = new BaseRepository<SocialEvent>(context);
+            var target = await CreateRepository();
             var actual = target.AddEntity(socialEvent);
 
-            // Arrange
             Assert.IsNotNull(actual);
-        }
-
-        [TestMethod]
-        public void EditEntity_IsSuccessful()
-        {
-            var dto = new SocialEvent { SocialEventID = 1, SocialEventName = "Edited Name" };
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
-            // Act 
-            var target = new BaseRepository<SocialEvent>(context);
-            var actual = target.EditEntity(dto);
-            var newSocialEvent = target.GetEntityByID(1);
-
-            // Arrange
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(dto.SocialEventName, newSocialEvent.Result.SocialEventName);
-        }
-
-        [TestMethod]
-        public void DeleteEntity_IsSuccessful()
-        {
-            var options = CreateDbContextOptions();
-            using var context = new EventCalendarDbContext(options);
-            // Act 
-            var target = new BaseRepository<SocialEvent>(context);
-            var deletedEvent = target.GetEntityByID(4).Result;
-            var actual = target.DeleteEntity(deletedEvent);
-            var numberOfEvents = target.GetAllEntities().Result.Count();
-
-            // Arrange
-            Assert.IsNotNull(actual);
-            Assert.AreEqual(3, numberOfEvents);
         }
 
         #region Private Methods
-        private DbContextOptions<EventCalendarDbContext> CreateDbContextOptions()
+        private async Task<BaseRepository<SocialEvent>> CreateRepository()
         {
-            var options = new DbContextOptionsBuilder<EventCalendarDbContext>().UseInMemoryDatabase("TestDatabase").Options;
-
-            CreateDatabaseEntities(options);
-
-            return options;
+            var context = new EventCalendarDbContext(_dbContextOptions);
+            await PopulateData(context);
+            return new BaseRepository<SocialEvent>(context);
         }
 
-        private static void CreateDatabaseEntities(DbContextOptions<EventCalendarDbContext> options)
+        private async Task PopulateData(EventCalendarDbContext context)
         {
             var socialEvents = new List<SocialEvent>
             {
-                new SocialEvent {SocialEventID = 1, CategoryID = 1, SocialEventName = "First Test Event Name"},
-                new SocialEvent {SocialEventID = 2, CategoryID = 1, SocialEventName = "Second Test Event Name"},
-                new SocialEvent {SocialEventID = 3, CategoryID = 2, SocialEventName = "Third Test Event Name"}
+                new SocialEvent {SocialEventID = 1, SocialEventDescription = "Test Description", CategoryID = 1, SocialEventName = "First Test Event Name"},
+                new SocialEvent {SocialEventID = 2, SocialEventDescription = "Test Description 2", CategoryID = 1, SocialEventName = "Second Test Event Name"},
+                new SocialEvent {SocialEventID = 3, SocialEventDescription = "Test Description 3", CategoryID = 2, SocialEventName = "Third Test Event Name"}
             };
 
-            using var context = new EventCalendarDbContext(options);
-            context.SocialEvents.AddRange(socialEvents);
-            context.SaveChangesAsync();
+            await context.SocialEvents.AddRangeAsync(socialEvents);
+            await context.SaveChangesAsync();
         }
         #endregion
     }

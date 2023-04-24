@@ -68,7 +68,9 @@ namespace EventCalendar.ApplicationTests
         {
             // Arrange
             var eventCategory = new EventCategory { EventCategoryName = "First Category", EventCategoryID = 1 };
+            var dto = new EventCategoryDTO { EventCategoryID = eventCategory.EventCategoryID, EventCategoryName = eventCategory.EventCategoryName };
             _mockEventCategoryRepository.Setup(x => x.GetEntityByID(It.IsAny<int>())).ReturnsAsync(eventCategory);
+            _mockMapper.Setup(x => x.Map<EventCategoryDTO>(It.IsAny<EventCategory>())).Returns(dto);
 
             // Act
             var target = new EventCategoryService(_mockEventCategoryRepository.Object, _mockMapper.Object);
