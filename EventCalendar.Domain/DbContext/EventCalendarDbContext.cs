@@ -1,15 +1,19 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventCalendar.Domain
 {
-    public class EventCalendarDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, ApplicationUserClaim, 
+    public class EventCalendarDbContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, ApplicationUserClaim,
         ApplicationUserRole, ApplicationUserLogin, ApplicationRoleClaim, ApplicationUserToken>
     {
         public EventCalendarDbContext(DbContextOptions<EventCalendarDbContext> options) : base(options)
         {
-            
+
+        }
+
+        public EventCalendarDbContext()
+        {
+
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder) => builder.UseLazyLoadingProxies();

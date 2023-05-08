@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30128.74
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1. Presentation Layer", "1. Presentation Layer", "{322FB123-FCEA-454E-AE25-E9FB32503E54}"
 EndProject
@@ -22,6 +22,11 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventCalendar.ApplicationTests", "EventCalendar.ApplicationTests\EventCalendar.ApplicationTests.csproj", "{1328C56C-0F6A-4E48-BE21-D03B653CEC57}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventCalendar", "EventCalendar\EventCalendar.csproj", "{B5D571E1-6792-4374-AD48-C38767A378EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventCalendar.InfrastructureTests", "EventCalendar.InfrastructureTests\EventCalendar.InfrastructureTests.csproj", "{AB3A391B-E55D-4AA4-B2ED-2766537A2737}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CA8E8939-26BE-4606-838C-320B03B7FC98} = {CA8E8939-26BE-4606-838C-320B03B7FC98}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +58,10 @@ Global
 		{B5D571E1-6792-4374-AD48-C38767A378EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B5D571E1-6792-4374-AD48-C38767A378EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B5D571E1-6792-4374-AD48-C38767A378EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB3A391B-E55D-4AA4-B2ED-2766537A2737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB3A391B-E55D-4AA4-B2ED-2766537A2737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB3A391B-E55D-4AA4-B2ED-2766537A2737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB3A391B-E55D-4AA4-B2ED-2766537A2737}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -64,6 +73,7 @@ Global
 		{CA8E8939-26BE-4606-838C-320B03B7FC98} = {258422AC-EDB7-4E1E-8689-EF451216C68D}
 		{1328C56C-0F6A-4E48-BE21-D03B653CEC57} = {F3C6F03E-C695-4323-8199-9CBA2F5D109E}
 		{B5D571E1-6792-4374-AD48-C38767A378EE} = {322FB123-FCEA-454E-AE25-E9FB32503E54}
+		{AB3A391B-E55D-4AA4-B2ED-2766537A2737} = {258422AC-EDB7-4E1E-8689-EF451216C68D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B2A83ACF-0B99-4CD6-8BD7-36A3DE9427E0}
