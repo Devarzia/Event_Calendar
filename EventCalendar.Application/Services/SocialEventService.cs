@@ -82,6 +82,7 @@ namespace EventCalendar.Application
             var socialEvent = _mapper.Map<SocialEvent>(dto);
             await _socialEventRepository.AddEntity(socialEvent);
             await _logService.CreateAddLog($"{dto.SocialEventName} added");
+            System.Diagnostics.Trace.TraceInformation($"{dto.User} added {dto.SocialEventName}");
         }
 
         public async Task EditSocialEvent(SocialEventDTO dto)

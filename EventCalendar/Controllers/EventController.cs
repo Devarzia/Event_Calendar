@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace EventCalendar.Controllers
@@ -95,6 +96,7 @@ namespace EventCalendar.Controllers
             model.SocialEvent.UserID = user.Id;
             await _socialEventService.AddSocialEvent(model.SocialEvent);
             TempData["Message"] = $"Success! \"{model.SocialEvent.SocialEventName}\" has been added!";
+            Trace.TraceInformation($"{user.FirstName} {user.LastName} has created {model.SocialEvent.SocialEventName}");
             return RedirectToAction("UserEvents", "Event");
         }
 
@@ -124,14 +126,18 @@ namespace EventCalendar.Controllers
             model.SocialEvent.UserID = user.Id;
             await _socialEventService.EditSocialEvent(model.SocialEvent);
             TempData["Message"] = $"Success! \"{model.SocialEvent.SocialEventName}\" has been edited!";
+            Trace.TraceInformation($"{user.FirstName} {user.LastName} has edited {model.SocialEvent.SocialEventName}");
             return RedirectToAction("UserEvents", "Event");
         }
 
         [HttpPost, ValidateAntiForgeryToken, ModelValidationFilter]
         public async Task<IActionResult> DeleteSocialEvent(EventViewModel model)
         {
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             await _socialEventService.DeleteSocialEvent(model.SocialEvent.SocialEventID);
             TempData["Message"] = $"Success! \"{model.SocialEvent.SocialEventName}\" has been Deleted!";
+            Trace.TraceInformation($"{user.FirstName} {user.LastName} has deleted {model.SocialEvent.SocialEventName}");
             return RedirectToAction("UserEvents", "Event");
 
         }

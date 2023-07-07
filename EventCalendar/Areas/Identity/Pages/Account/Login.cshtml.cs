@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using EventCalendar.Application;
 using EventCalendar.Domain;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using EventCalendar.Application;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EventCalendar.Areas.Identity.Pages.Account
 {
@@ -17,11 +18,13 @@ namespace EventCalendar.Areas.Identity.Pages.Account
     {
         protected readonly SignInManager<ApplicationUser> _signInManager;
         protected readonly ILogService _logService;
+        protected readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogService logService)
+        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogService logService, ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
             _logService = logService;
+            _logger = logger;
         }
 
         [BindProperty]
@@ -70,7 +73,7 @@ namespace EventCalendar.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-        
+
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -79,6 +82,7 @@ namespace EventCalendar.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     await _logService.CreateUserLoginLog($"{Input.Email} logged in.");
+                    System.Diagnostics.Trace.TraceInformation($"{Input.Email} has logged In");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -93,6 +97,7 @@ namespace EventCalendar.Areas.Identity.Pages.Account
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    System.Diagnostics.Trace.TraceError($"Failed login attempt - {Input.Email}");
                     return Page();
                 }
             }

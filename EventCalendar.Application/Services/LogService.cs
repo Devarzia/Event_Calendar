@@ -18,7 +18,7 @@ namespace EventCalendar.Application
         {
             var list = new List<LogDTO>();
             var logs = await _logRepository.GetAllEntities();
-            foreach(var log in logs)
+            foreach (var log in logs)
             {
                 var dto = new LogDTO
                 {
